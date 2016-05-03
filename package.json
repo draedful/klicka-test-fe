@@ -1,0 +1,28 @@
+{
+  "name": "klika-test-fe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^1.13.0",
+    "babel-core": "^6.4.0",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "eslint-plugin-react": "^3.16.1",
+    "babel-plugin-transform-runtime": "^6.4.3"
+  },
+  "dependencies": {
+    "fixed-data-table": "^0.6.0",
+    "lodash": "^4.11.2",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "typed_observer": "0.0.4",
+    "whatwg-fetch": "^1.0.0"
+  }
+}
