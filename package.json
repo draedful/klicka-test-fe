@@ -22,7 +22,8 @@
     "lodash": "^4.11.2",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
-    "typed_observer": "0.0.4",
+    "react-flip-move": "^2.1.2",
+    "typed_observer": "0.1.1",
     "whatwg-fetch": "^1.0.0"
   }
 }

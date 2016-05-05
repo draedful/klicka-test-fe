@@ -21,7 +21,7 @@ var List = {
     },
     load() {
         if(Model.isValid()) {
-            return Http('find', Model.serialize());
+            return Http('find', Model.serialize(),{method: 'POST'});
         }
         return Promise.reject('Params invalid');
     },

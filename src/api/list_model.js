@@ -8,6 +8,7 @@ class Match extends BaseType {
         super(name, parentObserver);
 
         this.observer = new Observer()
+        this.observer
             .define('author', String)
             .define('duration', String)
             .define('year', String)
@@ -39,7 +40,7 @@ var sortType = {
     },
 
     getPureValue(value) {
-        return value >= 0 ? 1 : -1;
+        return value;
     }
 };
 
@@ -60,6 +61,18 @@ class Sort extends BaseType {
 
     }
 
+    sortBy(name, value) {
+        if(!value) {
+            value = Filter.get('sort').get(name);
+            if(!isFinite(value)) {
+                value = -1
+            } else {
+                value = value * -1
+            }
+        }
+        this.observer.set(name, value);
+    }
+
     get(name) {
         return this.observer.get(name);
     }
@@ -72,9 +85,10 @@ class Sort extends BaseType {
 
 
 
-var Filter = new Observer()
+var Filter = new Observer();
+Filter
     .define('limit', Int)
-    .define('page', Int, {defaultValue:0}).lock('page')
+    .define('page', Int, {defaultValue:0}).lockUpdate('page')
     .define('match', Match)
     .define('sort', Sort);
 
@@ -86,6 +100,9 @@ Filter.onUpdate('sort', () => {
     Filter.set('page', 0);
 });
 
+Filter.sortBy = function(name, value) {
+    Filter.get('sort').sortBy(name, value);
+};
 
 Filter.nextPage = function() {
     Filter.set('page', Filter.get('page') + 1);

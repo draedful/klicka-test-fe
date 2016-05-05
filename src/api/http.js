@@ -17,10 +17,16 @@ function parseJSON(response) {
 
 export default function(url, data, config) {
 
-    return fetch(API_HOST + url, {
-        method:  config ? config.method ? config.method : 'GET' : 'GET',
-        body: isObject(data) ? JSON.stringify(data) : data
-    })
+    var params = {};
+    if(data) {
+        params.body = isObject(data) ? JSON.stringify(data) : data
+    }
+    if(config) {
+        if(config.method != 'GET') {
+            params.method = config.method
+        }
+    }
+    return fetch(API_HOST + url, params)
         .then(checkStatus)
         .then(parseJSON)
         .catch(function(error) {
