@@ -21,47 +21,6 @@ body * {
     max-width: 1230px;
 }
 
-.table {
-    display: table;
-    width: 100%;
-}
-.row {
-    display: table-row;
-}
-.column {
-    display: table-cell;
-}
-
-.filter {
-    background-color: #f8f9f3;
-    padding: 1rem;
-    border-radius: 0.2rem;
-    margin-bottom: 10px;
-}
-.track-list {
-    height: 97vh;
-    overflow-x: hidden;
-    overflow-y: auto ;
-}
-.track-list--item{
-    height: 4rem;
-    cursor: pointer;
-    background-color: #f8f9f3;
-}
-.track-list--item .column {
-    padding: 0.7rem;
-    vertical-align: middle;
-}
-
-.track-list--item__avatar {
-    width: 7rem;
-}
-
-.track-list--item__duration {
-    width: 1.5rem;
-    color: rgba(96, 108, 110, 0.6);
-}
-
 
 
 

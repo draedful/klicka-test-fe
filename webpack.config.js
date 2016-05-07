@@ -20,13 +20,16 @@ module.exports = {
         ],
         noParse: []
     },
-
+    resolve: {
+        alias: {
+            style: path.resolve(__dirname, 'style/')
+        }
+    },
     watch: true,
     cache: true,
     watchOptions: {
         aggregateTimeout: 200,
     },
-    devtool:  "inline-source-map",
     resolveModules: {
         modulesDirectories: ['node_modules'],
     },

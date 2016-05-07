@@ -21,6 +21,10 @@ class Match extends BaseType {
 
     }
 
+    set(name, value) {
+        return this.observer.set(name, value);
+    }
+
     get(name) {
         return this.observer.get(name);
     }

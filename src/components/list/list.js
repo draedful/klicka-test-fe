@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import FlipMove from 'react-flip-move';
 import List from '../../api/list.js';
 import ListModel from '../../api/list_model.js';
+import 'style!css!sass!style/tracks_list.scss';
 
 var getTime = function(duration) {
     var second = duration/1000;
@@ -31,6 +32,83 @@ var Track = React.createClass({
     }
 });
 
+var FilterHeader = React.createClass({
+    componentDidMount() {
+        this.removeUpdate = ListModel.onUpdate('match', () => {
+            this.forceUpdate();
+        })
+    },
+    componentWillUnmount() {
+        this.removeUpdate();
+    },
+    getPattern(name) {
+        return ListModel.get('match').get(name);
+    },
+    filterBy(name, e) {
+        ListModel.get('match').set(name, e.target.value);
+    },
+    render() {
+        return <div className="row track-list-header">
+            <div className="column track-list--item__avatar">
+                <input onChange={this.filterBy.bind(this, 'name')} value={this.getPattern('name')}/>
+            </div>
+            <div className="column column-1"></div>
+            <div className="column column-1">
+                <input onChange={this.filterBy.bind(this, 'author')} value={this.getPattern('author')}/>
+            </div>
+            <div className="column column-1">
+                <input onChange={this.filterBy.bind(this, 'genre')} value={this.getPattern('genre')}/>
+            </div>
+            <div className="column track-list--item__duration"></div>
+        </div>
+    }
+});
+
+var SortHeader = React.createClass({
+    componentDidMount() {
+        this.removeUpdate = ListModel.onUpdate('match', () => {
+            this.forceUpdate();
+        })
+    },
+    componentWillUnmount() {
+        this.removeUpdate();
+    },
+    getSortStatus(name) {
+        return ListModel.get('sort').get(name);
+    },
+    sortBy(name) {
+        ListModel.sortBy(name);
+    },
+    render() {
+        return <div className="row track-list-header">
+            <div className="column track-list--item__avatar" onClick={this.sortBy.bind(this,'name')}>
+                Название
+                {this.getSortStatus('name')}
+            </div>
+            <div className="column column-1"></div>
+            <div className="column column-1" onClick={this.sortBy.bind(this,'author')}>
+                Исполнитель
+                {this.getSortStatus('author')}
+            </div>
+            <div className="column column-1" onClick={this.sortBy.bind(this,'genre')}>
+                Жанр
+                {this.getSortStatus('genre')}
+            </div>
+            <div className="column track-list--item__duration" onClick={this.sortBy.bind(this,'duration')}>
+                Продолжительность
+                {this.getSortStatus('duration')}
+            </div>
+        </div>
+    }
+});
+
+var Pagintor = React.createClass({
+    displayName: '',
+    render() {
+
+    }
+})
+
 export default React.createClass({
     displayName: 'TrackList',
     getInitialState(){
@@ -49,9 +127,6 @@ export default React.createClass({
     getItems() {
         return this.state.items.map(item => <Track key={item._id} track={item}/>)
     },
-    sort () {
-        ListModel.sortBy('author');
-    },
     next () {
         List.next().then(() => {
             requestAnimationFrame(() => {
@@ -63,12 +138,13 @@ export default React.createClass({
         return <div><div className="track-list" ref='list'>
             <div className="track-list--wrapper">
                 <div className="table" ref='table'>
+                    <FilterHeader />
+                    <SortHeader />
+
                     {this.getItems()}
                 </div>
             </div>
         </div>
-            <button onClick={this.sort}>Sort</button>
-            <button onClick={this.next}>Next</button>
         </div>
     }
 })
