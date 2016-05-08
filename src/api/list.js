@@ -4,6 +4,7 @@ import isFunction from 'lodash/isFunction';
 import each from 'lodash/each';
 
 var List = {
+    length: 0,
     data: [],
     cbs:[],
     getData() {
@@ -27,8 +28,8 @@ var List = {
     },
     update() {
         return this.load().then((data)=>{
-
-            this.data = data;
+            this.length = data.count;
+            this.data = data.tracks;
             this.extendUpdate();
             return this.data;
         }).catch(function(e) {
@@ -39,9 +40,11 @@ var List = {
         Model.nextPage();
         return this.load(Model.serialize()).then((data)=>{
 
-            Array.prototype.push.apply(this.data, data); // concat without loss links
+            // слияние массива без потери ссылки
+            Array.prototype.push.apply(this.data, data);
 
             this.extendUpdate();
+
             return this.data;
         }).catch(function(e) {
             console.log('Failed next', e);
@@ -50,8 +53,6 @@ var List = {
 };
 
 Model.onUpdate(function() {
-    // Тут потенциальная возможность для утечки, ибо завязываем скоуп колбека на модель,
-    // в итоге сборщик мусора не сможет удалить функцию пока жива модель, а модель не удалится пока жива функиця
    List.update();
 });
 

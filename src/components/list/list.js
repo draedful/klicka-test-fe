@@ -4,6 +4,8 @@ import FlipMove from 'react-flip-move';
 import List from '../../api/list.js';
 import ListModel from '../../api/list_model.js';
 import 'style!css!sass!style/tracks_list.scss';
+import 'style!css!sass!style/paginator.scss';
+import map from 'lodash/map';
 
 var getTime = function(duration) {
     var second = duration/1000;
@@ -104,8 +106,39 @@ var SortHeader = React.createClass({
 
 var Pagintor = React.createClass({
     displayName: '',
+    getPages() {
+        var pages = List.length/ListModel.get('limit')
+        if(pages <= 5) {
+            return map(new Array(pages), (value, index) => {
+                return index;
+            });
+        }
+    },
+    toPage(page) {
+        ListModel.set('page', page);
+    },
+    toPrev() {
+        ListModel.prevPage();
+    },
+    toNext() {
+        ListModel.nextPage();
+    },
     render() {
-
+        var currentPage = ListModel.get('page');
+        return <div className='paginator'>
+            <span className='paginator-item' onClick={this.toPrev} >prev</span>
+            {
+                map(this.getPages(), (value)=> {
+                    return <span
+                        className={'paginator-item'+(currentPage == value ? ' current' : '')}
+                        onClick={this.toPage.bind(this,value)}
+                        key={value}>
+                        {value}
+                    </span>
+                })
+            }
+            <span className='paginator-item' onClick={this.toNext} >next</span>
+        </div>
     }
 })
 
@@ -144,6 +177,7 @@ export default React.createClass({
                     {this.getItems()}
                 </div>
             </div>
+            <Pagintor />
         </div>
         </div>
     }

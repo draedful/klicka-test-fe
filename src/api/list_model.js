@@ -87,12 +87,23 @@ class Sort extends BaseType {
 
 }
 
+var IntAboveZero = {
+    isValid(value) {
+        return isFinite(value) && value >= 0;
+    },
 
+    getValue(value) {
+        return value;
+    },
 
-var Filter = new Observer();
-Filter
-    .define('limit', Int)
-    .define('page', Int, {defaultValue:0}).lockUpdate('page')
+    getPureValue(value) {
+        return value;
+    }
+}
+
+var Filter = new Observer()
+    .define('limit', IntAboveZero, {defaultValue: 20})
+    .define('page', IntAboveZero, {defaultValue:0})/*.lockUpdate('page')*/
     .define('match', Match)
     .define('sort', Sort);
 
@@ -110,6 +121,10 @@ Filter.sortBy = function(name, value) {
 
 Filter.nextPage = function() {
     Filter.set('page', Filter.get('page') + 1);
+};
+
+Filter.prevPage = function() {
+    Filter.set('page', Filter.get('page') - 1);
 };
 
 export default Filter;
