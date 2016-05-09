@@ -31,10 +31,10 @@ export default React.createClass({
         List.toPage(page);
     },
     toPrev() {
-        List.next();
+        List.prev();
     },
     toNext() {
-        List.prev();
+        List.next();
     },
     render() {
         var currentPage = List.currentPage;
