@@ -1,4 +1,4 @@
-import Http from './http.js';
+import Http from './../helpers/http.js';
 import Model from './list_model.js';
 import isFunction from 'lodash/isFunction';
 import each from 'lodash/each';
@@ -7,6 +7,13 @@ var List = {
     length: 0,
     data: [],
     cbs:[],
+    get pages() {
+        return Math.round(this.length / Model.get('limit'));
+    },
+
+    get currentPage() {
+        return Model.get('page');
+    },
     getData() {
         return this.data;
     },
@@ -36,19 +43,22 @@ var List = {
             console.log('Failed update', e);
         })
     },
+    allowNext() {
+        return this.pages >= this.currentPage;
+    },
+    allowPrev() {
+        return this.currentPage >= 0;
+    },
     next() {
         Model.nextPage();
-        return this.load(Model.serialize()).then((data)=>{
-
-            // слияние массива без потери ссылки
-            Array.prototype.push.apply(this.data, data);
-
-            this.extendUpdate();
-
-            return this.data;
-        }).catch(function(e) {
-            console.log('Failed next', e);
-        })
+    },
+    prev() {
+        Model.prevPage();
+    },
+    toPage(page) {
+        if(page <= this.pages) {
+            Model.set('page', page)
+        }
     }
 };
 

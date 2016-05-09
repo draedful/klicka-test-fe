@@ -1,4 +1,3 @@
-//import fetch from 'whatwg-fetch';
 import isObject from 'lodash/isObject';
 
 function checkStatus(response) {

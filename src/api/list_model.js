@@ -1,6 +1,7 @@
 import List from './list.js';
 import {Observer, Int, String, BaseType} from 'typed_observer';
 import isFinite from 'lodash/isFinite';
+import extend from 'lodash/extend';
 
 
 class Match extends BaseType {
@@ -36,11 +37,11 @@ class Match extends BaseType {
 
 var sortType = {
     isValid(value) {
-        return isFinite(value);
+        return isFinite(+value);
     },
 
     getValue(value) {
-        return value;
+        return +value;
     },
 
     getPureValue(value) {
@@ -68,10 +69,12 @@ class Sort extends BaseType {
     sortBy(name, value) {
         if(!value) {
             value = Filter.get('sort').get(name);
-            if(!isFinite(value)) {
-                value = -1
+            if(!value) {
+                value = 1
+            } else if(value == 1){
+                value *= -1;
             } else {
-                value = value * -1
+                value = null;
             }
         }
         this.observer.set(name, value);
@@ -89,30 +92,44 @@ class Sort extends BaseType {
 
 var IntAboveZero = {
     isValid(value) {
-        return isFinite(value) && value >= 0;
+        if(!value) {
+            return true;
+        }
+        return isFinite(+value) && value >= 0;
     },
 
     getValue(value) {
-        return value;
+        return value || 0;
     },
 
     getPureValue(value) {
-        return value;
+        return value || 0;
     }
 }
 
 var Filter = new Observer()
     .define('limit', IntAboveZero, {defaultValue: 20})
-    .define('page', IntAboveZero, {defaultValue:0})/*.lockUpdate('page')*/
+    .define('page', {
+        isValid(value) {
+            return isFinite(value) && value > 0;
+        },
+
+        getValue(value) {
+            return value;
+        },
+        getPureValue(value) {
+            return value - 1;
+        }
+    }, {defaultValue: 1})/*.lockUpdate('page')*/
     .define('match', Match)
     .define('sort', Sort);
 
 Filter.onUpdate('match', () => {
-    Filter.set('page', 0);
+    Filter.reset('page');
 });
 
 Filter.onUpdate('sort', () => {
-    Filter.set('page', 0);
+    Filter.reset('page');
 });
 
 Filter.sortBy = function(name, value) {
