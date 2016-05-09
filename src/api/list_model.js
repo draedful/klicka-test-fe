@@ -37,10 +37,16 @@ class Match extends BaseType {
 
 var sortType = {
     isValid(value) {
-        return isFinite(+value);
+        if(value == null) {
+            return true;
+        }
+        return isFinite(+value) && value != 0;
     },
 
     getValue(value) {
+        if(value == null) {
+            return true;
+        }
         return +value;
     },
 
@@ -66,18 +72,11 @@ class Sort extends BaseType {
 
     }
 
-    sortBy(name, value) {
-        if(!value) {
-            value = Filter.get('sort').get(name);
-            if(!value) {
-                value = 1
-            } else if(value == 1){
-                value *= -1;
-            } else {
-                value = null;
-            }
+    sortBy(name) {
+        if(name) {
+            var value = this.get(name) || -1;
+            this.observer.set(name, value * -1);
         }
-        this.observer.set(name, value);
     }
 
     get(name) {
