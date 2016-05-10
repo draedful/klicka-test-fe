@@ -20,23 +20,23 @@ export default React.createClass({
         ListModel.set('limit', e.target.value);
     },
     render() {
-        return <div >
-            <div>
+        return <form role="form" >
+            <div className='form-group'>
                 <label ntmlFor='name'>Название</label>
-                <input onChange={this.filterBy.bind(this, 'name')} value={this.getPattern('name')}/>
+                <input className="form-control" onChange={this.filterBy.bind(this, 'name')} value={this.getPattern('name')}/>
             </div>
-            <div>
+            <div className='form-group'>
                 <label ntmlFor='name'>Автор</label>
-                <input onChange={this.filterBy.bind(this, 'author')} value={this.getPattern('author')}/>
+                <input className="form-control" onChange={this.filterBy.bind(this, 'author')} value={this.getPattern('author')}/>
             </div>
-            <div >
+            <div className='form-group'>
                 <label ntmlFor='name'>Жанр</label>
-                <input onChange={this.filterBy.bind(this, 'genre')} value={this.getPattern('genre')}/>
+                <input className="form-control" onChange={this.filterBy.bind(this, 'genre')} value={this.getPattern('genre')}/>
             </div>
-            <div >
+            <div className='form-group'>
                 <label ntmlFor='name'>Лимит</label>
-                <input onChange={this.setLimit} value={ListModel.get('limit')}/>
+                <input className="form-control" onChange={this.setLimit} value={ListModel.get('limit')}/>
             </div>
-        </div>
+        </form>
     }
 })

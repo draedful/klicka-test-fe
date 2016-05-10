@@ -1,13 +1,12 @@
 import React from 'react';
 import map from 'lodash/map';
 
+import 'style!css!bootstrap';
+import 'style!css!style/tracks_list.scss';
 import List from '../../api/list.js';
 import Track from './item.js';
-import FilterHeader from './filter.js';
 import SortHeader from './sort.js';
 import Pagination from './paginator.js';
-
-import 'style!css!sass!style/tracks_list.scss';
 
 export default React.createClass({
     displayName: 'TrackList',
@@ -36,18 +35,17 @@ export default React.createClass({
     },
     render() {
         return <div>
-
-            <FilterHeader />
-            <Pagination />
             <div className="track-list" ref='list'>
                 <div className="track-list--wrapper">
-                    <div className="table" ref='table'>
-
+                    <table className="table table-striped table-bordered table-hover table-condensed" ref='table'>
                         <SortHeader />
+                        <tbody>
                         {this.getItems()}
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <Pagination />
         </div>
     }
 })

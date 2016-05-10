@@ -38,19 +38,14 @@ export default React.createClass({
     },
     render() {
         var currentPage = List.currentPage;
-        return <div className='paginator'>
-            <span className='paginator-item' onClick={this.toPrev} >prev</span>
+        return <ul className='pagination pagination-lg'>
+            <li className={List.allowPrev() ? '' : 'disabled'}><a href="#" onClick={this.toPrev}>&laquo;</a></li>
             {
                 map(this.getPages(), (value)=> {
-                    return <span
-                        className={'paginator-item'+(currentPage == value ? ' current' : '')}
-                        onClick={this.toPage.bind(this,value)}
-                        key={value}>
-                        {value}
-                    </span>
+                    return <li className={currentPage == value ? 'active' : ''}><a href="#"  onClick={this.toPage.bind(this,value)}>{value}</a></li>
                 })
             }
-            <span className='paginator-item' onClick={this.toNext} >next</span>
-        </div>
+            <li className={List.allowNext() ? '' : 'disabled'}><a href="#" onClick={this.toNext}>&raquo;</a></li>
+        </ul>
     }
 })

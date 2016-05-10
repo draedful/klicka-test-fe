@@ -11,19 +11,12 @@ export default  React.createClass({
     displayName: 'Track',
     render() {
         var {author, duration, genre, name} = this.props.track;
-        return <div className="row track-list--item">
-            <div className="column column-1">
-                {name}
-            </div>
-            <div className="column column-1">
-                {author}
-            </div>
-            <div className="column column-1">
-                {genre}
-            </div>
-            <div className="column track-list--item__duration">
-                {getTime(duration)}
-            </div>
-        </div>
+        return <tr>
+            <td>{name}</td>
+            <td>{author}</td>
+            <td>{genre}</td>
+            <td>{getTime(duration)}</td>
+
+        </tr>
     }
 });

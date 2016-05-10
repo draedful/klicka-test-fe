@@ -19,7 +19,8 @@ module.exports = {
                 test: /\.js?$/,
                 exclude: /node_modules/,
                 loaders: ['babel?presets[]=react&presets[]=es2015&plugins[]=transform-runtime'],
-            }
+            },
+            { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
         ],
         noParse: []
     },
@@ -27,7 +28,8 @@ module.exports = {
         alias: {
             style: path.resolve(__dirname, 'style/'),
             react: path.resolve(__dirname, 'node_modules/react/dist', isProduction?'react.min.js':'react.js'),
-            "react-dom": path.resolve(__dirname, 'node_modules/react-dom/dist', isProduction?'react-dom.min.js':'react-dom.js')
+            "react-dom": path.resolve(__dirname, 'node_modules/react-dom/dist', isProduction?'react-dom.min.js':'react-dom.js'),
+            "bootstrap": path.resolve(__dirname, 'node_modules/bootstrap/dist/css', isProduction?'bootstrap.min.css':'bootstrap.css')
         }
     },
     watch: !isProduction,
